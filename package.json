@@ -1,0 +1,32 @@
+{
+    "name": "cordova-plugin-dnsproxy",
+    "version": "0.0.1",
+    "description": "An Android Cordova plugin that allows users to customize dns server for android device.",
+    "cordova": {
+      "id": "cordova-plugin-dnsproxy",
+      "platforms": [
+        "android"
+      ]
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/RoqosInc/cordova-plugin-dnsproxy.git"
+    },
+    "keywords": [
+      "dnsproxy",
+      "dns",
+      "cordova-android"
+    ],
+    "engines": [
+      {
+        "name": "cordova",
+        "version": ">=6.5.0"
+      }
+    ],
+    "author": "Roqos <info@roqos.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/RoqosInc/cordova-plugin-dnsproxy/issues"
+    },
+    "homepage": "https://github.com/RoqosInc/cordova-plugin-dnsproxy"
+  }
