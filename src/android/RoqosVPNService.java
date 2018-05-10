@@ -79,10 +79,12 @@ public class RoqosVPNService extends VpnService implements Runnable {
 
         if (primaryServer.contains(":") || secondaryServer.contains(":")) {//IPv6
             try {
+                Log.d("RoqosVPNService", "isIPv6");
                 InetAddress addr = Inet6Address.getByAddress(ipv6Template);
-                Log.d("DNSPlugin", "configure: Adding IPv6 address" + addr);
+                Log.d("RoqosVPNService", "configure: Adding IPv6 address" + addr);
                 builder.addAddress(addr, 120);
             } catch (Exception e) {
+                e.printStackTrace();
                 ipv6Template = null;
             }
         } else {
@@ -105,7 +107,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
             builder.allowFamily(OsConstants.AF_INET);
             builder.allowFamily(OsConstants.AF_INET6);
 
-            Log.d("DNSPlugin", "Roqos VPN service is started at " + primaryDNSServer.getHostAddress());
+            Log.d("RoqosVPNService", "Roqos VPN service is started at " + primaryDNSServer.getHostAddress());
 
             descriptor = builder.establish();
 
