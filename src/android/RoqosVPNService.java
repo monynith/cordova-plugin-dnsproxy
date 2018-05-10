@@ -91,7 +91,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
 
         InetAddress aliasPrimary;
         InetAddress aliasSecondary;
-        dnsServers = new HashMap<>();
+        dnsServers = new HashMap<String, String>();
         aliasPrimary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
         aliasSecondary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
 
