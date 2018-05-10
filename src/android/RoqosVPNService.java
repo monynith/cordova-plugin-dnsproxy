@@ -22,6 +22,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import android.widget.Toast;
+
 public class RoqosVPNService extends VpnService implements Runnable {
 
     public static final String ACTION_ACTIVATE = "com.roqos.RoqosVpnService.ACTION_ACTIVATE";
@@ -87,11 +89,16 @@ public class RoqosVPNService extends VpnService implements Runnable {
             ipv6Template = null;
         }
 
-        dnsServers = new HashMap<String, String>();
+        InetAddress aliasPrimary;
+        InetAddress aliasSecondary;
+        dnsServers = new HashMap<>();
+        aliasPrimary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
+        aliasSecondary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
+
         InetAddress primaryDNSServer = null;
         try {
-            primaryDNSServer = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
-            InetAddress secondaryDNSServer = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(secondaryServer));
+            InetAddress primaryDNSServer = aliasPrimary;
+            InetAddress secondaryDNSServer = aliasSecondary;
             builder.addDnsServer(primaryDNSServer).addDnsServer(primaryDNSServer);
 
             builder.setBlocking(true);
