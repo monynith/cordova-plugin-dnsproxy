@@ -77,7 +77,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
 
         byte[] ipv6Template = new byte[]{32, 1, 13, (byte) (184 & 0xFF), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-        if (primaryServer.contains(":") || secondaryServer.contains(":")) {//IPv6
+        if (primaryServer.contains(":")) {//IPv6
             try {
                 Log.d("RoqosVPNService", "isIPv6");
                 InetAddress addr = Inet6Address.getByAddress(ipv6Template);
