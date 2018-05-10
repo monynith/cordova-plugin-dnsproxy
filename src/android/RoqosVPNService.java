@@ -62,7 +62,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
                 .setSession(Roqos.VPNSession);
 
         String format = null;
-        for (String prefix : new String[]{"192.0.2", "198.51.100", "203.0.113", "192.168.50"}) {
+        for (String prefix : new String[]{"10.0.0", "192.0.2", "198.51.100", "203.0.113", "192.168.50"}) {
             try {
                 builder.addAddress(prefix + ".1", 24);
             } catch (IllegalArgumentException e) {
@@ -73,13 +73,25 @@ public class RoqosVPNService extends VpnService implements Runnable {
             break;
         }
 
-        InetAddress aliasPrimary;
-        InetAddress aliasSecondary;
+        byte[] ipv6Template = new byte[]{32, 1, 13, (byte) (184 & 0xFF), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+        if (primaryServer.contains(":") || secondaryServer.contains(":")) {//IPv6
+            try {
+                InetAddress addr = Inet6Address.getByAddress(ipv6Template);
+                Log.d("DNSPlugin", "configure: Adding IPv6 address" + addr);
+                builder.addAddress(addr, 120);
+            } catch (Exception e) {
+                ipv6Template = null;
+            }
+        } else {
+            ipv6Template = null;
+        }
+
         dnsServers = new HashMap<String, String>();
         InetAddress primaryDNSServer = null;
         try {
-            primaryDNSServer = addDnsServer(builder, format, null, InetAddress.getByName(primaryServer));
-            InetAddress secondaryDNSServer = addDnsServer(builder, format, null, InetAddress.getByName(secondaryServer));
+            primaryDNSServer = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
+            InetAddress secondaryDNSServer = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(secondaryServer));
             builder.addDnsServer(primaryDNSServer).addDnsServer(primaryDNSServer);
 
             builder.setBlocking(true);
