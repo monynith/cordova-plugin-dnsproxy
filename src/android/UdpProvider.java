@@ -336,7 +336,7 @@ public class UdpProvider extends Provider {
 
             Log.i(TAG, "getHostAddress: " + dnsDomainName);
 
-            message.addQuestion(new Question(dnsDomainName, Record.TYPE.AAAA))
+            message.addQuestion(new Question(dnsDomainName, Record.TYPE.A))
                     .setId((new Random()).nextInt())
                     .setRecursionDesired(true)
                     .setOpcode(DNSMessage.OPCODE.QUERY)
