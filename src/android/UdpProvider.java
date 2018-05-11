@@ -333,11 +333,10 @@ public class UdpProvider extends Provider {
             DNSMessage.Builder message = dnsMsg.asBuilder();
             
             String dnsDomainName = dnsMsg.getQuestion().name.toString();
-            String responseDomain = RuleResolver.resolve(dnsDomainName, dnsMsg.getQuestion().type);
 
-            Log.i(TAG, "getHostAddress: " + Inet4Address.getByName(responseDomain).getAddress());
+            Log.i(TAG, "getHostAddress: " + dnsDomainName);
 
-            message.addQuestion(new Question(Inet4Address.getByName(responseDomain).getAddress(), Record.TYPE.AAAA))
+            message.addQuestion(new Question(dnsDomainName, Record.TYPE.AAAA))
                     .setId((new Random()).nextInt())
                     .setRecursionDesired(true)
                     .setOpcode(DNSMessage.OPCODE.QUERY)
