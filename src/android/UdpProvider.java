@@ -331,10 +331,13 @@ public class UdpProvider extends Provider {
         try {
             dnsMsg = new DNSMessage(dnsRawData);
             DNSMessage.Builder message = dnsMsg.asBuilder();
+            
+            String dnsDomainName = dnsMsg.getQuestion().name.toString();
+            String responseDomain = RuleResolver.resolve(dnsDomainName, dnsMsg.getQuestion().type);
 
-            Log.i(TAG, "getHostAddress: " + destAddr.getHostAddress());
+            Log.i(TAG, "getHostAddress: " + Inet4Address.getByName(responseDomain).getAddress());
 
-            message.addQuestion(new Question(destAddr.getHostAddress(), Record.TYPE.AAAA))
+            message.addQuestion(new Question(Inet4Address.getByName(responseDomain).getAddress(), Record.TYPE.AAAA))
                     .setId((new Random()).nextInt())
                     .setRecursionDesired(true)
                     .setOpcode(DNSMessage.OPCODE.QUERY)
