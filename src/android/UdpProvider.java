@@ -332,6 +332,8 @@ public class UdpProvider extends Provider {
             dnsMsg = new DNSMessage(dnsRawData);
             DNSMessage.Builder message = dnsMsg.asBuilder();
 
+            Log.i(TAG, "getHostAddress: " + destAddr.getHostAddress());
+
             message.addQuestion(new Question(destAddr.getHostAddress(), Record.TYPE.AAAA))
                     .setId((new Random()).nextInt())
                     .setRecursionDesired(true)
